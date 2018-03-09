@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,11 @@
   },
   "homepage": "https://github.com/j-stud-res/Greedy-BFS#readme",
   "devDependencies": {
-    "webpack": "^4.1.1"
+    "eslint": "^4.18.2",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.10"
+  },
+  "dependencies": {
+    "p5": "^0.6.0"
   }
 }
