@@ -1,6 +1,5 @@
 class PriorityQueue
 {
-
 	constructor(customCompare = undefined)
 	{
 		this.data = [];
@@ -9,13 +8,20 @@ class PriorityQueue
 
 	Push(element)
 	{
-		debugger;
 		this.data.push(element);
 		this.HeapifyUp(this.data.length - 1);
 	}
 
 	Pop()
 	{
+		if(this.Count() == 0)
+		{
+			return undefined;
+		}
+		if(this.Count() == 1)
+		{
+			return this.data.pop();
+		}
 		this.Switch(0, this.data.length - 1);
 		let element = this.data.pop();
 		this.HeapifyDown(0);
@@ -59,9 +65,9 @@ class PriorityQueue
 				this.Switch(index, lchild);
 				this.HeapifyDown(lchild);
 			}
-		} else if(lchild)
+		} else if(lchild && this.Compare(this.data[index], this.data[lchild]) < 0)
 		{
-			this.Switch(lchild, index);
+			this.Switch(index, lchild);
 		}
 	}
 

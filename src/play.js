@@ -7,7 +7,10 @@ let endPos;
 let moveInterval;
 function setup()
 {
-    queue = new PriorityQueue();
+    queue = new PriorityQueue((cell1, cell2) => {
+        let compare = cell1.CompareTo(cell2);
+        return -compare;
+    });
     let cnvs = createCanvas(600, 600);
     colors = 
     {
@@ -108,37 +111,53 @@ function makeAmove()
 
 function lookUp()
 {
-    if(grid[currPos.r - 1] && grid[currPos.r - 1][currPos.c] && grid[currPos.r -1][currPos.c] !== "x")
+    if(grid[currPos.r - 1] && grid[currPos.r - 1][currPos.c])
     {
-        let cell = new Cell(currPos.r - 1, currPos.c, endPos.r, endPos.c )
-        queue.Push(cell);
+        let cellValue = grid[currPos.r -1][currPos.c];
+        if(cellValue !== "x" && cellValue !== "step")
+        {
+            let cell = new Cell(currPos.r - 1, currPos.c, endPos.r, endPos.c )
+            queue.Push(cell);
+        }
     }
 }
 
 function lookDown()
 {
-    if(grid[currPos.r + 1] && grid[currPos.r + 1][currPos.c] && grid[currPos.r + 1][currPos.c] !== "x")
+    if(grid[currPos.r + 1] && grid[currPos.r + 1][currPos.c])
     {
-        let cell = new Cell(currPos.r + 1, currPos.c, endPos.r, endPos.c );
-        queue.Push(cell);
+        let cellValue = grid[currPos.r + 1][currPos.c];
+        if(cellValue !== "x" && cellValue !== "step")
+        {
+            let cell = new Cell(currPos.r + 1, currPos.c, endPos.r, endPos.c );
+            queue.Push(cell);
+        }
     }
 }
 
 function lookLeft()
 {
-    if(grid[currPos.r][currPos.c -  1] && grid[currPos.r][currPos.c - 1] !== "x")
+    if(grid[currPos.r][currPos.c -  1])
     {
-        let cell = new Cell(currPos.r, currPos.c - 1, endPos.r, endPos.c );
-        queue.Push(cell);
+        let cellValue = grid[currPos.r][currPos.c - 1];
+        if(cellValue !== "x" && cellValue !== "step")
+        {
+            let cell = new Cell(currPos.r, currPos.c - 1, endPos.r, endPos.c );
+            queue.Push(cell);
+        }
     }
 }
 
 function lookRight()
 {
-    if(grid[currPos.r][currPos.c +  1] && grid[currPos.r][currPos.c + 1] !== "x")
+    if(grid[currPos.r][currPos.c +  1])
     {
-        let cell = new Cell(currPos.r, currPos.c + 1, endPos.r, endPos.c )
-        queue.Push(cell);
+        let cellValue = grid[currPos.r][currPos.c + 1];
+        if(cellValue !== "x" && cellValue !== "step")
+        {
+            let cell = new Cell(currPos.r, currPos.c + 1, endPos.r, endPos.c )
+            queue.Push(cell);
+        }
     }
 }
 
