@@ -1,0 +1,19 @@
+{
+  "name": "greedy-bfs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-stud-res/Greedy-BFS.git"
+  },
+  "author": "j",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j-stud-res/Greedy-BFS/issues"
+  },
+  "homepage": "https://github.com/j-stud-res/Greedy-BFS#readme"
+}
