@@ -117,5 +117,3 @@ class PriorityQueue
 		}
 	}
 }
-
-export { PriorityQueue };
