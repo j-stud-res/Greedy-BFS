@@ -1,11 +1,13 @@
-import Grid from "../grid/Cell";
+import ScreenControl from "../screen-control/ScreenControl";
+import { GridConfig } from "../config";
 
-let initGrid;
+let screenControl;
 
 function setup() {
-    createCanvas(600,600);
-    background(66, 134, 244);
-    initGrid = new Grid(60);
+    screenControl = new ScreenControl(GridConfig);
+    console.log(screenControl);
+    createCanvas(screenControl.canvasWidth, screenControl.canvasHeight);
+    background(123);
 }
 
-export { setup, initGrid };
+export { setup, screenControl };
