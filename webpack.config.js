@@ -22,7 +22,7 @@ module.exports = {
   },
   plugins : [
     new HtmlWebpackPlugin({
-      title: "Template",
+      title: "Greedy-BFS",
       filename: "index.html"
     })
   ]
