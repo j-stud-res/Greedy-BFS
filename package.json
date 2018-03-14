@@ -19,11 +19,14 @@
   },
   "homepage": "https://github.com/j-stud-res/Greedy-BFS#readme",
   "devDependencies": {
-    "eslint": "^4.18.2",
+    "html-webpack-plugin": "^3.0.6",
+    "ts-loader": "^4.0.1",
+    "typescript": "^2.7.2",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.10"
   },
   "dependencies": {
+    "@types/node": "^9.4.7",
     "p5": "^0.6.0"
   }
 }
