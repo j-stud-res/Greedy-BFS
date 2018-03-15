@@ -1,6 +1,6 @@
 import { GridConfig } from '../config';
-import { ControlButton, ControlButtonConfig } from "./ControlButton";
-import { Point } from './Point';
+import { Point, ControlButton, ControlButtonConfig } from './button-control/index';
+import { GridControl } from "./grid-control/GridControl";
 
 export class ScreenControl {
     
@@ -9,6 +9,7 @@ export class ScreenControl {
     gridRightBorder: number;
 
     private sketch: p5;
+    private gridControl: GridControl;
     private buttons: ControlButton[];
 
     constructor(config: GridConfig, p5Sketch: p5) {
@@ -17,6 +18,7 @@ export class ScreenControl {
         this.canvasHeight = config.gridHeight;
         this.sketch = p5Sketch;
         this.buttons = [];
+        this.gridControl = new GridControl(config, p5Sketch);
     }
     
     addButtons(buttons: ControlButtonConfig[]) {
@@ -29,6 +31,7 @@ export class ScreenControl {
         for(let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].drawButton();
         }
+        this.gridControl.gridDraw();
     }
 
     mouseClicked() {

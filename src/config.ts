@@ -1,5 +1,4 @@
-import { ControlButtonConfig } from "./screen-control/ControlButton";
-import { Point } from "./screen-control/Point";
+import { ControlButtonConfig, Point } from "./screen-control/button-control/index";
 
 export interface GridConfig {
     gridWidth: number;
@@ -11,8 +10,8 @@ export interface GridConfig {
 export const defaultGridConfig = {
     gridWidth: 500,
     gridHeight: 500,
-    cellsWidthCount: 50,
-    cellsHeightCount: 50
+    cellsWidthCount: 10,
+    cellsHeightCount: 10
 }
 
 export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
@@ -24,7 +23,7 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
             displayText: "Play",
             colorActive: "#4286f4",
             colorInactive: "#43c6f2",
-            active: true
+            active: false
         },
         {
             point: new Point(defaultGridConfig.gridWidth + 11, 40),
@@ -33,7 +32,7 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
             displayText: "Edit",
             colorActive: "#4286f4",
             colorInactive: "#43c6f2",          
-            active: false,
+            active: true,
             subControlButtons: [
                 {
                     point: new Point(defaultGridConfig.gridWidth + 31, 70),
