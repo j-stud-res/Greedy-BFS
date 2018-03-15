@@ -2,44 +2,39 @@ import { Cell, CellState, CellPosition } from "./Cell";
 
 export class Grid {
 
-    private grid: Cell[][];
-    private startCell: Cell | undefined;
-    private endCell: Cell | undefined;
-
+    private _grid: Cell[][];
+    private _startCell: Cell | undefined;
+    private _endCell: Cell | undefined;
+    get startCell() {
+        return this._startCell as Cell;
+    }
+    get endCell() {
+        return this._endCell as Cell;
+    }
     constructor(cellRows: number, cellColls: number) {
-        this.grid = this.buildGrid(cellRows, cellColls);
+        this._grid = this.buildGrid(cellRows, cellColls);
     }
 
-    buildGrid(rows: number, cols: number): Cell[][] {
-        let grid: Cell[][] = [];
-        for(let r = 0; r < rows; r++) {
-            let row: Cell[] = [];
-            for(let c = 0; c < cols; c++) {
-                row.push(new Cell({row: r, col: c}));
-            }
-            grid.push(row);
-        }
-        return grid;
+    isReady(): boolean {
+        return (this._startCell !== undefined && this._endCell !== undefined)? true : false;
     }
 
-    setStart(row: number, col: number) {
-        if(this.startCell) {
-            this.startCell.editState(CellState.empty);
+    editState(cellPos: CellPosition, state: CellState) {
+        switch(state) {
+            case CellState.start:
+                this.setStart(cellPos);
+                break;
+            case CellState.end:
+                this.setEnd(cellPos);
+                break;
+            default:
+                this.getCell(cellPos).editState(state);
+                break;
         }
-        this.startCell = this.grid[row][col];
-        this.startCell.editState(CellState.start);
-    }
-
-    setEnd(row: number, col: number) {
-        if(this.endCell) {
-            this.endCell.editState(CellState.empty);
-        }
-        this.endCell = this.grid[row][col];
-        this.endCell.editState(CellState.end);
     }
 
     getCell(pos: CellPosition): Cell {
-        return this.grid[pos.row][pos.col];
+        return this._grid[pos.row][pos.col];
     }
 
     move(cell: Cell): boolean {
@@ -51,7 +46,7 @@ export class Grid {
         if(pos.row - 1 < 0) {
             return undefined;
         }
-        let cell = this.grid[pos.row - 1][pos.col];
+        let cell = this._grid[pos.row - 1][pos.col];
         if(!cell.isScanable()) {
             return undefined;
         }
@@ -60,10 +55,10 @@ export class Grid {
     }
 
     scanDownCell(pos: CellPosition): Cell | undefined {
-        if(pos.row + 1 >= this.grid.length) {
+        if(pos.row + 1 >= this._grid.length) {
             return undefined;
         }
-        let cell = this.grid[pos.row + 1][pos.col];
+        let cell = this._grid[pos.row + 1][pos.col];
         if(!cell.isScanable()) {
             return undefined;
         }
@@ -75,7 +70,7 @@ export class Grid {
         if(pos.col - 1 < 0) {
             return undefined;
         }
-        let cell = this.grid[pos.row][pos.col - 1];
+        let cell = this._grid[pos.row][pos.col - 1];
         if(!cell.isScanable()) {
             return undefined;
         }
@@ -84,15 +79,43 @@ export class Grid {
     }
 
     scanRightCell(pos: CellPosition) {
-        if(pos.col + 1 >= this.grid[0].length) {
+        if(pos.col + 1 >= this._grid[0].length) {
             return undefined;
         }
-        let cell = this.grid[pos.row][pos.col + 1];
+        let cell = this._grid[pos.row][pos.col + 1];
         if(!cell.isScanable()) {
             return undefined;
         }
         cell.scan();
         return cell;
+    }
+
+    private setStart(pos: CellPosition) {
+        if(this._startCell) {
+            this._startCell.editState(CellState.empty);
+        }
+        this._startCell = this._grid[pos.row][pos.col];
+        this._startCell.editState(CellState.start);
+    }
+
+    private setEnd(pos: CellPosition) {
+        if(this._endCell) {
+            this._endCell.editState(CellState.empty);
+        }
+        this._endCell = this._grid[pos.row][pos.col];
+        this._endCell.editState(CellState.end);
+    }
+
+    private buildGrid(rows: number, cols: number): Cell[][] {
+        let grid: Cell[][] = [];
+        for(let r = 0; r < rows; r++) {
+            let row: Cell[] = [];
+            for(let c = 0; c < cols; c++) {
+                row.push(new Cell({row: r, col: c}));
+            }
+            grid.push(row);
+        }
+        return grid;
     }
 
 }

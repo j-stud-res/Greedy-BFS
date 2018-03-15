@@ -1,6 +1,6 @@
 import { GridConfig } from '../config';
 import { Point, ControlButton, ControlButtonConfig } from './button-control/index';
-import { GridControl } from "./grid-control/GridControl";
+import { GridControl, GridMode } from "./grid-control/GridControl";
 
 export class ScreenControl {
     
@@ -36,28 +36,35 @@ export class ScreenControl {
 
     mouseClicked() {
         if(this.sketch.mouseX > this.gridRightBorder) {
-            this.changeButtonsState(this.buttons);
+            let mode = this.changeButtonsState(this.buttons);
+            if(mode !== undefined) {
+                this.changeGridControlMode(mode);
+            }
         } else {
-            // this.grid.mouseClicked();
+            this.gridControl.mouseClicked();
         }
     }
 
-    private changeButtonsState(buttons: ControlButton[]) {
+    private changeGridControlMode(mode: GridMode) {
+        this.gridControl.changeMode(mode);
+    }
+
+    private changeButtonsState(buttons: ControlButton[]): GridMode | undefined {
         for(let button of buttons) {
             let mousePoint = new Point(this.sketch.mouseX, this.sketch.mouseY);
             if(button.isInBoundries(mousePoint)) {
                 button.changeActiveState();
                 this.setAllButtonsInactive(buttons, button);
-                break;
+                return button.mode;
             }
             if(button.subButtons) {
-                this.changeButtonsState(button.subButtons);
+                return this.changeButtonsState(button.subButtons);
             }
         }
+        return undefined;
     }
 
     private setAllButtonsInactive(buttons: ControlButton[], keepActiveButton: ControlButton) {
-        debugger;
         for(let button of buttons) {
             if(keepActiveButton !== button) {
                 button.active = false;

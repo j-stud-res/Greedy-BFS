@@ -21,18 +21,18 @@ export class PriorityQueue<T extends IComperable<T>>
 		this.heapifyUp(this.data.length - 1);
 	}
 
-	pop(): T | undefined
+	pop(): T
 	{
 		if(this.count() == 0)
 		{
-			return undefined;
+			throw new Error("Invalid pop operation. queue count is 0");
 		}
 		if(this.count() == 1)
 		{
-			return this.data.pop();
+			return this.data.pop() as T;
 		}
 		this.switch(0, this.data.length - 1);
-		let element = this.data.pop();
+		let element = this.data.pop() as T;
 		this.heapifyDown(0);
 		return element;
 	}

@@ -1,14 +1,12 @@
 import { Grid } from "../../grid/Grid";
 import { GridConfig } from "../../config";
-import { Cell, CellState } from "../../grid/Cell"
+import { Cell, CellState, CellPosition } from "../../grid/Cell"
 import { Point } from "../button-control/Point";
+import { algorithm }  from "../../algorithm";
 
 export enum GridMode {
     Play,
-    Edit
-}
-
-export enum EditSubMode {
+    Edit,
     Start,
     End,
     Obstacle,
@@ -41,7 +39,6 @@ interface RectCellProp {
 export class GridControl {
 
     public gridMode: GridMode;
-    public editSubMode: EditSubMode;
 
     private grid: Grid;
     private config: GridConfig;
@@ -49,14 +46,43 @@ export class GridControl {
     private colors: CellColors;
     private cellPropery: RectCellProp;
 
-    constructor(config: GridConfig, sketch: p5,colors: CellColors = defaultCellColors, gridMode: GridMode = GridMode.Edit, editSubMode: EditSubMode = EditSubMode.Start) {
+    constructor(config: GridConfig, sketch: p5,colors: CellColors = defaultCellColors, gridMode: GridMode = GridMode.Edit) {
         this.gridMode = gridMode;
-        this.editSubMode = editSubMode;
         this.config = config;
         this.grid = new Grid(config.cellsHeightCount, config.cellsWidthCount);
         this.colors = colors;
         this.sketch = sketch;
         this.cellPropery = this.calcCellProperty(config);
+    }
+
+    mouseClicked() {
+        switch(this.gridMode) {
+            case GridMode.Play:
+
+                break;
+            case GridMode.Edit:
+
+                break;
+            case GridMode.Start:
+            case GridMode.End:
+            case GridMode.Obstacle:
+            case GridMode.Empty:
+                let cellPos = this.mousePosToCellRowCol(this.sketch.mouseX, this.sketch.mouseY);
+                this.grid.editState(cellPos, this.gridModeToCellState(this.gridMode));
+                break;
+        }
+    }
+
+    changeMode(mode: GridMode) {
+        if(mode == GridMode.Play) {
+            if(!this.grid.isReady()) {
+                alert("Grid should contain a start cell and an end cell!");
+                return;
+            }
+            algorithm(this.grid, this.grid.startCell, this.grid.endCell, this.config.moveSpeed);
+        } else {
+            this.gridMode = mode;
+        }
     }
 
     gridDraw() {
@@ -66,6 +92,26 @@ export class GridControl {
                 this.cellDraw(cell);
             }
         }
+    }
+
+    private gridModeToCellState(mode: GridMode): CellState {
+        switch(mode) {
+            case GridMode.Start:
+                return CellState.start;
+            case GridMode.End:
+                return CellState.end;
+            case GridMode.Obstacle:
+                return CellState.obstacle;
+            case GridMode.Empty:
+                return CellState.empty;
+        }
+        return CellState.empty;
+    }
+
+    private mousePosToCellRowCol(x: number, y: number): CellPosition {
+        let c = Math.floor(x / this.cellPropery.width);
+        let r = Math.floor(y / this.cellPropery.height);
+        return { row: r, col: c };
     }
 
     private calcCellProperty(config: GridConfig): RectCellProp {

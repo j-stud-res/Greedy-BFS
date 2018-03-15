@@ -37,14 +37,17 @@ export class Cell {
             case CellState.start:
                 this.end = false;
                 this.obstacle = false;
+                this.start = true;
                 break;
             case CellState.end:
                 this.start = false;
                 this.obstacle = false;
+                this.end = true;
                 break;
             case CellState.obstacle:
                 this.start = false;
                 this.end = false;
+                this.obstacle = true;
                 break;
             case CellState.empty:
                 this.obstacle = false;

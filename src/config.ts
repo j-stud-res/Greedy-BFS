@@ -1,17 +1,20 @@
 import { ControlButtonConfig, Point } from "./screen-control/button-control/index";
+import { GridMode } from "./screen-control/grid-control/GridControl";
 
 export interface GridConfig {
     gridWidth: number;
     gridHeight: number;
     cellsWidthCount: number;
     cellsHeightCount: number;
+    moveSpeed: number;
 }
 
 export const defaultGridConfig = {
     gridWidth: 500,
     gridHeight: 500,
-    cellsWidthCount: 10,
-    cellsHeightCount: 10
+    cellsWidthCount: 25,
+    cellsHeightCount: 25,
+    moveSpeed: 100
 }
 
 export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
@@ -23,7 +26,8 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
             displayText: "Play",
             colorActive: "#4286f4",
             colorInactive: "#43c6f2",
-            active: false
+            active: false,
+            mode: GridMode.Play
         },
         {
             point: new Point(defaultGridConfig.gridWidth + 11, 40),
@@ -33,6 +37,7 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
             colorActive: "#4286f4",
             colorInactive: "#43c6f2",          
             active: true,
+            mode: GridMode.Edit,
             subControlButtons: [
                 {
                     point: new Point(defaultGridConfig.gridWidth + 31, 70),
@@ -41,7 +46,8 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
                     displayText: "start",
                     colorActive: "#4286f4",
                     colorInactive: "#43c6f2",            
-                    active: false
+                    active: false,
+                    mode: GridMode.Start
                 },
                 {
                     point: new Point(defaultGridConfig.gridWidth + 31, 100),
@@ -50,7 +56,8 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
                     displayText: "end",
                     colorActive: "#4286f4",
                     colorInactive: "#43c6f2",           
-                    active: false
+                    active: false,
+                    mode: GridMode.End
                 },
                 {
                     point: new Point(defaultGridConfig.gridWidth + 31, 130),
@@ -59,7 +66,8 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
                     displayText: "obstacle",
                     colorActive: "#4286f4",
                     colorInactive: "#43c6f2",           
-                    active: false
+                    active: false,
+                    mode: GridMode.Obstacle
                 },
                 {
                     point: new Point(defaultGridConfig.gridWidth + 31, 160),
@@ -68,7 +76,8 @@ export function controlButtonsConfig(sketch: p5): ControlButtonConfig[] {
                     displayText: "empty",
                     colorActive: "#4286f4",
                     colorInactive: "#43c6f2",            
-                    active: false
+                    active: false,
+                    mode: GridMode.Empty
                 }
             ]
         }

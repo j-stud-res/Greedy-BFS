@@ -1,5 +1,6 @@
 import  { Rectangular } from "./Rectangular";
 import { Point } from "./Point";
+import { GridMode } from "../grid-control/GridControl";
 
 export interface ControlButtonConfig {
     point: Point;
@@ -9,6 +10,7 @@ export interface ControlButtonConfig {
     colorActive: string;
     colorInactive: string;
     active: boolean;
+    mode: GridMode;
     subControlButtons?: ControlButtonConfig[];
 }
 
@@ -19,6 +21,7 @@ export class ControlButton extends Rectangular {
     colorInactive: string;
     active: boolean;
     subButtons: ControlButton[] | undefined;
+    mode: GridMode;
 
     private sketch: p5;
     private hover: boolean = false;
@@ -29,6 +32,7 @@ export class ControlButton extends Rectangular {
         this.colorActive = config.colorActive;
         this.colorInactive = config.colorInactive;
         this.active = config.active;
+        this.mode = config.mode;
         this.sketch = p5sketch;
         if(config.subControlButtons) {
             this.subButtons = [];
